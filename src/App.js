@@ -1,7 +1,44 @@
 import React, { Component } from 'react';
+import GuestList from './GuestList';
 import './App.css';
 
 class App extends Component{
+  state= {
+    guests: [
+      {
+        name: 'Treasure',
+        isConfirmed: false
+      },
+      {
+        name: 'Nic',
+        isConfirmed: true
+      },
+
+      {
+        name: 'Matt K',
+        isConfirmed: true
+      }
+    ]
+  }
+
+  toggleConfirmationAt = indexToChange => 
+    this.setState({
+      guests: this.state.guests.map((guest, index) => {
+        if (index === indexToChange) {
+          return {
+            ...guest,
+            isConfirmed: !guest.isConfirmed
+          };
+        }
+        return guest;
+      })
+    });
+
+  getTotalInvited = () => this.state.guests.length;
+  //get attending guest method
+  //get unconfirmed guest method
+
+
   render() {
     return (
       <div className="App">
@@ -36,32 +73,9 @@ class App extends Component{
             </tr>
           </tbody>
         </table>
-        <ul>
-          <li class="pending"><span>Safia</span></li>
-          <li class="responded"><span>Iver</span>
-            <label>
-              <input type="checkbox" checked /> Confirmed
-            </label>
-            <button>edit</button>
-            <button>remove</button>
-          </li>
-          <li class="responded">
-            <span>Corrina</span>
-            <label>
-              <input type="checkbox" checked /> Confirmed
-            </label>
-            <button>edit</button>
-            <button>remove</button>
-          </li>
-          <li>
-            <span>Joel</span>
-            <label>
-              <input type="checkbox" /> Confirmed
-            </label>
-            <button>edit</button>
-            <button>remove</button>
-          </li>
-        </ul>
+        <GuestList 
+        toggleConfirmationAt={this.toggleConfirmationAt}
+        guests={this.state.guests}/>
       </div>
     </div>
     )
